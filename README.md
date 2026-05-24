@@ -13,7 +13,7 @@ ghcr.io/mattcburns/ironic-standalone
 Tag strategy (from `docker-publish.yml`):
 
 - `master` (latest state of the default branch)
-- `vX.Y.Z` (full semver tag you push)
+- `vX.Y.Z` and `X.Y.Z` (git tag + normalized semver tag on release pushes)
 - `X.Y` and `X` convenience semver tags
 - Commit SHA tag (e.g. `sha-<shortsha>`) for reproducibility
 
@@ -33,7 +33,7 @@ This is a standard OpenStack Ironic configuration file. The container makes no a
 |---|---|
 | `/etc/ironic/ironic.conf` | **Required.** Main Ironic configuration file. |
 | `/etc/ironic/htpasswd` | HTTP basic auth credentials (if `auth_strategy = http_basic`). |
-| `/etc/ironic/conductor-override.conf` | Per-instance conductor overrides (host, workers, conductor_group). Automatically loaded if present. |
+| `/etc/ironic/conductor-override.conf` | Per-instance conductor overrides (host, workers, conductor_group). Loaded when `IRONIC_ROLE=conductor`. |
 | `/var/log/ironic` | Ironic log directory. |
 | `/shared/html` | HTTP-served files for virtual media boot and deploy images. |
 

@@ -12,16 +12,16 @@ fi
 
 CONFIG_ARGS=("--config-file" "$IRONIC_CONFIG")
 
-if [[ -r /etc/ironic/conductor-override.conf ]]; then
-  CONFIG_ARGS+=("--config-file" "/etc/ironic/conductor-override.conf")
-fi
-
 case "$IRONIC_ROLE" in
   api)
     echo "[ironic-entrypoint] Starting ironic-api ..."
     exec ironic-api "${CONFIG_ARGS[@]}"
     ;;
   conductor)
+    if [[ -r /etc/ironic/conductor-override.conf ]]; then
+      CONFIG_ARGS+=("--config-file" "/etc/ironic/conductor-override.conf")
+      echo "[ironic-entrypoint] Loaded conductor override config from /etc/ironic/conductor-override.conf"
+    fi
     echo "[ironic-entrypoint] Starting ironic-conductor ..."
     exec ironic-conductor "${CONFIG_ARGS[@]}"
     ;;
