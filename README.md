@@ -7,7 +7,7 @@ A single container image for OpenStack Ironic that can run as an **API server**,
 Published to GitHub Container Registry:
 
 ```
-ghcr.io/mattcburns/ironic
+ghcr.io/mattcburns/ironic-standalone
 ```
 
 Tag strategy (from `docker-publish.yml`):
@@ -58,7 +58,7 @@ docker run --rm \
   --network ironic-network \
   -v /path/to/your/ironic.conf:/etc/ironic/ironic.conf:ro \
   -e IRONIC_ROLE=dbsync \
-  ghcr.io/mattcburns/ironic:master
+  ghcr.io/mattcburns/ironic-standalone:master
 ```
 
 For initial schema creation (first-time setup):
@@ -69,7 +69,7 @@ docker run --rm \
   -v /path/to/your/ironic.conf:/etc/ironic/ironic.conf:ro \
   -e IRONIC_ROLE=dbsync \
   -e DBSYNC_CMD=create_schema \
-  ghcr.io/mattcburns/ironic:master
+  ghcr.io/mattcburns/ironic-standalone:master
 ```
 
 ### API Server
@@ -82,7 +82,7 @@ docker run -d --name ironic-api \
   -v /path/to/your/logs:/var/log/ironic \
   -p 6385:6385 \
   -e IRONIC_ROLE=api \
-  ghcr.io/mattcburns/ironic:master
+  ghcr.io/mattcburns/ironic-standalone:master
 ```
 
 ### Conductor
@@ -97,7 +97,7 @@ docker run -d --name ironic-conductor-1 \
   -v /path/to/your/logs:/var/log/ironic \
   -v /path/to/your/http_images:/shared/html \
   -e IRONIC_ROLE=conductor \
-  ghcr.io/mattcburns/ironic:master
+  ghcr.io/mattcburns/ironic-standalone:master
 ```
 
 The conductor override config is automatically loaded if present at `/etc/ironic/conductor-override.conf`. A typical override sets the conductor hostname and worker pool size:
@@ -124,7 +124,7 @@ docker run -d --name ironic-conductor-2 \
   -v /path/to/your/logs:/var/log/ironic \
   -v /path/to/your/http_images:/shared/html \
   -e IRONIC_ROLE=conductor \
-  ghcr.io/mattcburns/ironic:master
+  ghcr.io/mattcburns/ironic-standalone:master
 ```
 
 ## Ironic Version
