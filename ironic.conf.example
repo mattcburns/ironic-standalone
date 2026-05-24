@@ -1,0 +1,59 @@
+[DEFAULT]
+auth_strategy = http_basic
+http_basic_auth_user_file = /etc/ironic/htpasswd
+transport_url = rabbit://ironic:password@ironic-rabbitmq:5672//
+
+enabled_hardware_types = redfish
+enabled_boot_interfaces = redfish-virtual-media,redfish-https
+default_boot_interface = redfish-virtual-media
+enabled_deploy_interfaces = direct,ramdisk
+default_deploy_interface = direct
+enabled_inspect_interfaces = no-inspect,agent,redfish
+default_inspect_interface = agent
+enabled_management_interfaces = noop,redfish
+enabled_power_interfaces = redfish
+enabled_raid_interfaces = no-raid,agent,redfish
+enabled_vendor_interfaces = no-vendor,redfish
+enabled_network_interfaces = noop
+enabled_console_interfaces = no-console
+enabled_bios_interfaces = no-bios,redfish
+enabled_firmware_interfaces = no-firmware,redfish
+enabled_rescue_interfaces = agent
+
+default_resource_class = baremetal
+
+[api]
+host_ip = 0.0.0.0
+port = 6385
+
+[database]
+connection = mysql+pymysql://ironic:password@ironic-mariadb:3306/ironic?charset=utf8
+
+[conductor]
+automated_clean = true
+deploy_kernel = http://ironic-host:6180/ipa/ironic-python-agent.kernel
+deploy_ramdisk = http://ironic-host:6180/ipa/ironic-python-agent.initramfs
+
+[deploy]
+http_url = http://ironic-host:6180/
+http_root = /shared/html
+default_boot_option = local
+erase_devices_priority = 0
+erase_devices_metadata_priority = 10
+
+[dhcp]
+dhcp_provider = none
+
+[redfish]
+use_swift = false
+kernel_append_params = nofb nomodeset systemd.journald.forward_to_console=yes
+
+[inspector]
+power_off = true
+extra_kernel_params = ipa-inspection-collectors=default,logs
+require_managed_boot = false
+add_ports = pxe
+keep_ports = present
+
+[service_catalog]
+endpoint_override = http://ironic-host:6385
